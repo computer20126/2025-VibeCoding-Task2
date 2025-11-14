@@ -1,37 +1,242 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-TW">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; max-width: 100%; }
-    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans TC", Arial, sans-serif; line-height: 1.6; }
-    img { max-width: 100%; height: auto; display: block; }
-    .container { width: 1920px; margin: 0 auto; padding: 16px; }
-    nav a { margin-right: 12px; text-decoration: none; }
-    .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
-    .col-12 { grid-column: span 12; }
-    @media (min-width: 768px) { .col-md-6 { grid-column: span 6; } }
-    .card { border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.04); }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>圈圈 | 個人作品集與設計專案</title>
+    <!-- 網頁描述 (長度介於 50-160 字元) -->
+    <meta name="description" content="歡迎來到圈圈的個人作品集！探索我在網頁設計、前端開發和使用者體驗設計方面的精選專案。查看我的最新技能與聯繫方式，期待合作！">
+    <!-- 載入 Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 設定主要字型為 Inter，並確保平滑滾動 */
+        html {
+            scroll-behavior: smooth;
+            font-family: 'Inter', sans-serif;
+        }
+        /* 自訂一個簡單的 hover 效果，提升互動性 */
+        .project-card {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        /* 確保全域無水平捲動 */
+        body {
+            overflow-x: hidden;
+        }
+    </style>
 </head>
-<body>
-  <header class="container" role="banner">
-    <nav aria-label="主選單">
-      <a href="#about">關於我</a>
-      <a href="#projects">作品集</a>
-      <a href="https://example.com/blog">技術部落格</a>
-      <a href="mailto:me@example.com">聯絡我</a>
-    </nav>
-    <h1>你好，我是小明：前端工程師新手之路</h1>
-    <h1>你好，我是小明：前端工程師新手之路</h1>
-    <p>歡迎來到我的個人網站！這裡整理了學習紀錄、Side Project 與實作心得。</p>
-  </header>
+<body class="bg-gray-50 text-gray-800">
 
-  <footer class="container" role="contentinfo">
-    <p>© 2025 My Portfolio · <a href="#">GitHub</a></p>
-    <img src="https://source.unsplash.com/600x200/?technology,abstract" alt="">
-  </footer>
+    <!-- 導覽列 (固定於頂部) -->
+    <header class="sticky top-0 z-50 bg-white shadow-md">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <!-- Logo/作品集名稱 -->
+            <div class="text-2xl font-bold text-indigo-600">
+                圈圈
+            </div>
+            <!-- 導覽連結 (桌面版) -->
+            <div class="hidden md:flex space-x-8 font-medium">
+                <a href="#about" class="text-gray-600 hover:text-indigo-600 transition duration-300">關於我</a>
+                <a href="#portfolio" class="text-gray-600 hover:text-indigo-600 transition duration-300">作品集</a>
+                <a href="#contact" class="text-gray-600 hover:text-indigo-600 transition duration-300">聯繫我</a>
+            </div>
+            <!-- 導覽連結 (手機版，可使用 JS 展開，此處省略複雜 JS 結構，確保靜態頁面合規) -->
+            <button id="menu-button" class="md:hidden text-gray-600 hover:text-indigo-600 p-2 rounded-md transition duration-300">
+                <!-- SVG Icon for Menu -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </nav>
+        <!-- 手機版選單 (簡化，實際應用需搭配 JS 實現開合) -->
+        <div id="mobile-menu" class="hidden md:hidden px-4 pt-2 pb-3 space-y-1 sm:px-3 bg-white">
+            <a href="#about" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-indigo-50 hover:text-indigo-600">關於我</a>
+            <a href="#portfolio" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-indigo-50 hover:text-indigo-600">作品集</a>
+            <a href="#contact" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-indigo-50 hover:text-indigo-600">聯繫我</a>
+        </div>
+    </header>
+    
+    <main>
+        <!-- Hero 區塊 -->
+        <section id="hero" class="bg-white py-24">
+          <div class="max-w-7xl mx-auto px-4 lg:px-8 grid lg:grid-cols-2 gap-12 items-center">
+            
+            <!-- 文案 -->
+            <div>
+              <h1 class="text-4xl sm:text-6xl font-extrabold leading-tight mb-6 text-gray-900">
+                打造清晰而有效的數位體驗
+              </h1>
+              <p class="text-xl text-gray-600 mb-8">
+                我是圈圈，專注於 UI/UX 規劃、介面設計與跨界前端協作。
+              </p>
+              <a href="#portfolio"
+                class="inline-block bg-indigo-600 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-indigo-700 transition">
+                查看作品集
+              </a>
+            </div>
+
+            <!-- 右側圖片版位 -->
+            <div class="relative">
+              <div class="aspect-[4/3] rounded-2xl bg-gray-200 shadow-lg overflow-hidden">
+                <!-- 在這裡放你的 mockup 圖片 -->
+                <img src="moke.jpg" alt="石虎外送mokeup" class="w-full h-full object-cover">
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- 關於我區塊 -->
+        <section id="about" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-center mb-12">關於我的能力與經歷</h2>
+                
+                <div class="flex flex-col md:flex-row items-center md:space-x-12">
+                    <!-- 圖片 -->
+                    <div class="md:w-1/3 mb-8 md:mb-0">
+                        <!-- 使用 placeholder image -->
+                        <img src="michi.png" alt="圈圈的個人頭像照片" class="rounded-full w-48 h-48 mx-auto object-cover shadow-xl">
+                    </div>
+                    
+                    <!-- 簡介與技能 -->
+                    <div class="md:w-2/3">
+                        <h3 class="text-2xl font-semibold mb-4 text-indigo-600">我的理念與專長</h3>
+                        <p class="text-gray-600 leading-relaxed mb-6">
+                            我的熱情在於將複雜的概念轉化為直觀的介面。我擁有 <span class="font-bold">1 年</span>的網頁開發與設計經驗，熟練掌握從線框圖到最終產品實施的整個流程。我的設計始終以使用者為中心，並確保在各種裝置上都能提供無縫的體驗。
+                        </p>
+                        
+                        <!-- 技能標籤 -->
+                        <div class="flex flex-wrap gap-3">
+                            <span class="bg-indigo-100 text-indigo-800 text-sm font-medium px-4 py-1 rounded-full">UX/UI 設計</span>
+                            <span class="bg-indigo-100 text-indigo-800 text-sm font-medium px-4 py-1 rounded-full">Vibe / AICG</span>
+                            <span class="bg-indigo-100 text-indigo-800 text-sm font-medium px-4 py-1 rounded-full">HTML5 CSS3</span>
+                            <span class="bg-indigo-100 text-indigo-800 text-sm font-medium px-4 py-1 rounded-full">Figma / Adobe XD</span>                          
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 作品集區塊 -->
+        <section id="portfolio" class="py-20 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-center mb-4">我的精選專案</h2>
+                <p class="text-center text-lg text-gray-600 mb-12">以下是我最能代表我設計與開發能力的幾個專案。</p>
+
+                <!-- 作品列表 (響應式 Grid 佈局) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    
+                    <!-- 專案卡片 1 -->
+                    <div class="project-card bg-white rounded-xl shadow-lg overflow-hidden">
+                        <img src="Echo.png" alt="線搞圖" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2">傳統廟宇導覽平台</h3>
+                            <p class="text-gray-600 mb-4 text-sm">
+                                本專案旨在透過互動與數位化的方式，讓廟宇文化的精髓觸手可及，無論您是虔誠信徒還是文化愛好者，都能輕鬆深入地了解竹蓮寺的歷史與文化底蘊。
+                            </p>
+                            <!-- 連結有效性檢查：非空非# -->
+                            <a href="https://drive.google.com/file/d/1l24CsBxsYDXQ77t_EkefNCSzdh6bY9nW/view?usp=sharing" target="_blank" class="text-indigo-600 font-semibold hover:text-indigo-800 transition duration-300">
+                                查看專案Demo &rarr;
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- 專案卡片 2 -->
+                    <div class="project-card bg-white rounded-xl shadow-lg overflow-hidden">
+                        <img src="Hikemate.png" alt="Hike首頁" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2">登山交友網站</h3>
+                            <p class="text-gray-600 mb-4 text-sm">
+                                透過系統化的前端開發與產品發想，我們將登山揪團、山林步道資訊整合，轉化為直覺流暢的數位體驗，讓山友能高效組隊、安心探索世界山林。
+                            </p>
+                            <!-- 連結有效性檢查：非空非# -->
+                            <a href="https://ellenwusw.github.io/HikeMate_bootstrap5/" target="_blank" class="text-indigo-600 font-semibold hover:text-indigo-800 transition duration-300">
+                                查看 Githubpage &rarr;
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- 專案卡片 3 -->
+                    <div class="project-card bg-white rounded-xl shadow-lg overflow-hidden">
+                        <img src="Lifeproject.png" alt="專案首頁">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2">生命終活設計</h3>
+                            <p class="text-gray-600 mb-4 text-sm">
+                                以系統化的UX研究與設計實作，把「理解人生與自我整理」轉化為一段可被看見、被引導、且真正能採取行動的數位體驗。
+                            </p>
+                            <!-- 連結有效性檢查：非空非# -->
+                            <a href="https://www.figma.com/proto/xtmIXyanMaE2mFaW0X2UwQ/%E4%BA%BA%E7%94%9F%E9%A6%AC%E8%B7%91%E7%87%88--Copy-?page-id=197%3A1540&node-id=252-110&viewport=231%2C129%2C0.04&t=xNJZPyHlQOo0COu9-1&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=252%3A110" target="_blank" class="text-indigo-600 font-semibold hover:text-indigo-800 transition duration-300">
+                                查看專案詳情 &rarr;
+                            </a>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+
+        <!-- 聯繫我區塊 -->
+        <section id="contact" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl font-bold mb-4">聯繫 圈圈</h2>
+                <p class="text-lg text-gray-600 mb-10 max-w-2xl mx-auto">
+                    對我的作品感興趣嗎？無論是專案合作、職位邀請或只是想打個招呼，隨時歡迎與我聯繫。
+                </p>
+
+                <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-8">
+                    
+                    <!-- Email 連結 -->
+                    <a href="mailto:computer20126@gmail.com" class="inline-flex items-center justify-center bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-indigo-700 transition duration-300 transform hover:scale-105 w-full sm:w-auto">
+                        <!-- SVG Icon for Email (Mail) -->
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-2-3H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2V7a2 2 0 00-2-2z"></path></svg>
+                        發送電子郵件
+                    </a>
+
+                    <!-- LinkedIn 連結 (使用 mock URL) -->
+                    <a href="https://www.linkedin.com/in/mock-quanquan" target="_blank" class="inline-flex items-center justify-center border border-indigo-600 text-indigo-600 font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-indigo-50 transition duration-300 transform hover:scale-105 w-full sm:w-auto">
+                        <!-- SVG Icon for LinkedIn -->
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.529-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                        我的領英檔案
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 頁尾 -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-sm text-gray-400">
+                &copy; 2025 圈圈 個人作品集。所有權利保留。
+            </p>
+            <div class="mt-2 text-sm">
+                <a href="#hero" class="text-indigo-400 hover:text-indigo-300 transition duration-300">返回頂部</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 簡單的 JS 邏輯來處理手機版選單開合
+        const menuButton = document.getElementById('menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+
+        // Toggle menu visibility
+        menuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close menu after clicking a link (for smooth scroll)
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
